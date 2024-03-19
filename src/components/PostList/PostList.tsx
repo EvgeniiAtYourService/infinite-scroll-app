@@ -16,9 +16,9 @@ function PostList() {
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
     // Условие, чтобы перестать реагировать на скролл после первых 5-и прокруток
-    const scrollPaginationDisabled = currentPage > 6;
+    const infiniteScrollDisabled = currentPage > 6;
 
-    const didScrolled = (event: any) => { // FIX any
+    const didScrolled = (event: any) => { // TODO: FIX any
         // Общая высота страницы с учётом скролла
         const wholePageHeight = event.target.documentElement.scrollHeight;
         // Текущее положение скролла от верха страницы
@@ -54,12 +54,12 @@ function PostList() {
     useEffect(() => {
         document.addEventListener('scroll', didScrolled);
 
-        if (scrollPaginationDisabled) {
+        if (infiniteScrollDisabled) {
             document.removeEventListener('scroll', didScrolled);
         }
 
         return () => document.removeEventListener('scroll', didScrolled);
-    }, [scrollPaginationDisabled])
+    }, [infiniteScrollDisabled])
 
     const didShowMoreButtonClicked = () => setIsLoading(true);
 
@@ -74,7 +74,7 @@ function PostList() {
             {(posts.length > 0) && isLoading && <Loader />}
 
             {/* Спрячем кнопку после загрузки всех постов */}
-            {scrollPaginationDisabled && (posts.length !== totalCount) && (
+            {infiniteScrollDisabled && (posts.length !== totalCount) && (
                 <button
                     className={styles['show-more-button']}
                     onClick={didShowMoreButtonClicked}
