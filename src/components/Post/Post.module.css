@@ -1,10 +1,14 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 .post {
     border: 3px solid green;
-    height: 100%;
-    max-width: 1000px;
+    border-radius: 10px;
+    margin-bottom: 20px;
     min-height: 600px;
     padding: 0 20px;
-    margin: 0 auto;
 }
 
 .post__title {
@@ -17,4 +21,19 @@
 
 .post__text {
     font-size: 18px;
+}
+
+.back-button {
+    background: none;
+    border: 3px solid green;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px;
+    width: 150px;
+    transition: all 0.7s;
+}
+
+.back-button:hover {
+    background-color: lightyellow;
 }
