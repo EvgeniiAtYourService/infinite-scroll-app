@@ -77,6 +77,7 @@ function PostList() {
                             onClick={didPostClicked(post.id)}
                         >
                             <h3 className={styles['post__title']}>{post.title}</h3>
+                            <span className={styles['post__author']}>Автор: {post.userId}</span>
                             <p className={styles['post__text']}>{post.body}</p>
                         </div>
                     ))

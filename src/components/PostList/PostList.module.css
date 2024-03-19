@@ -24,6 +24,10 @@
     text-transform: uppercase;
 }
 
+.post__author {
+    color: gray;
+}
+
 .post__text {
     font-size: 18px;
 }
