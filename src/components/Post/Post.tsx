@@ -36,7 +36,7 @@ const Post = () => {
                 className={styles['back-button']}
                 onClick={didBackButtonClicked}
             >
-                Назад
+                На главную
             </button>
         </div>
     )

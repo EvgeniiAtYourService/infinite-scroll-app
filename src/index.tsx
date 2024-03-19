@@ -7,10 +7,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+// REMOVE STRICT MODE NOT TO CALL USE EFFECT TWO TIMES
+
 root.render(
-  <React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>
 );
