@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './PostList.module.css';
 import { IPost } from '../../models';
-import { useNavigate } from 'react-router-dom'
+import PostCard from '../PostCard/PostCard';
+import Loader from '../Loader/Loader';
 
 const LIMIT = 10;
 
 function PostList() {
-
-    const navigate = useNavigate();
 
     const [posts, setPosts] = useState<IPost[]>([])
 
@@ -62,29 +61,17 @@ function PostList() {
         return () => document.removeEventListener('scroll', didScrolled);
     }, [scrollPaginationDisabled])
 
-    const didPostClicked = (postId: number) => () => navigate(`/${postId}`);
-
     const didShowMoreButtonClicked = () => setIsLoading(true);
 
     return (
         <div className={styles['container']}>
             {(posts.length === 0) 
-                ? <span>Загрузка...</span> 
-                : posts.map(post => (
-                        <div
-                            key={post.id}
-                            className={styles['post']}
-                            onClick={didPostClicked(post.id)}
-                        >
-                            <h3 className={styles['post__title']}>{post.title}</h3>
-                            <span className={styles['post__author']}>Автор: {post.userId}</span>
-                            <p className={styles['post__text']}>{post.body}</p>
-                        </div>
-                    ))
+                ? <Loader /> 
+                : posts.map(post => <PostCard key={post.id} post={post} />)
             }
 
             {/* Индикатор загрузки при прокрутках и для кнопки загрузки */}
-            {(posts.length > 0) && isLoading && <span>Загрузка...</span>}
+            {(posts.length > 0) && isLoading && <Loader />}
 
             {/* Спрячем кнопку после загрузки всех постов */}
             {scrollPaginationDisabled && (posts.length !== totalCount) && (

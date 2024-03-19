@@ -3,35 +3,6 @@
     margin: 0 auto;
 }
 
-.post {
-    border: 1px solid purple;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    padding: 0 20px;
-    transition: all 0.4s;
-}
-
-.post:hover {
-    transform: scale(1.05);
-}
-
-.post:last-child {
-    margin-bottom: initial;
-}
-
-.post__title {
-    text-transform: uppercase;
-}
-
-.post__author {
-    color: gray;
-}
-
-.post__text {
-    font-size: 18px;
-}
-
 .show-more-button {
     background: none;
     border: 1px solid purple;
