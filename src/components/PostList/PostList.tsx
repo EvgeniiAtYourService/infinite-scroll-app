@@ -8,16 +8,34 @@ function PostList() {
     const navigate = useNavigate();
 
     const [posts, setPosts] = useState<IPost[]>([])
+    
+    const [currentPage, setCurrentPage] = useState<number>(1)
 
-    useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts?limit=10&page=1')
-            .then(response => response.json())
-            .then(data => setPosts(data))
-    }, [])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
-    useEffect(() => {
-        return () => {
+    const didScrolled = (event: any) => {
+        const wholePageHeight = event.target.documentElement.scrollHeight; // Общая высота страницы с учётом скролла
+        const scrollOffset = event.target.documentElement.scrollTop; // Текущее положение скролла от верха страницы
+        const windowHeight = window.innerHeight; // Высота видимой области страницы (Высота браузера)
+
+        if ((wholePageHeight - (scrollOffset + windowHeight)) < 100) { // Условие для приближения к нижнему краю
+            setIsLoading(true);
         }
+    }
+
+    useEffect(() => {
+        if (isLoading) {            
+            fetch(`https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${currentPage}`)
+                .then(response => response.json())
+                .then(data => { setPosts([...posts, ...data]); setCurrentPage(prevValue => prevValue + 1) })
+                .catch(error => alert(`Ошибка при запросе данных, попробуйте обновить страницу. ${error.message}`))
+                .finally(() => setIsLoading(false))
+        }
+    }, [isLoading, currentPage, posts])
+
+    useEffect(() => {
+        document.addEventListener('scroll', didScrolled)
+        return () => document.removeEventListener('scroll', didScrolled)
     }, [])
 
     const didPostClicked = (postId: number) => () => navigate(`/${postId}`);
@@ -28,23 +46,19 @@ function PostList() {
 
     return (
         <div className={styles['container']}>
-            {posts.length === 0 
-            ? <span>Загрузка...</span> 
-            : (
-                <>
-                    {/* {posts.map(post => ( */}
-                    {posts.filter((o, r) => r < 3).map(post => (
-                        <div 
-                            key={post.id} 
+            {(posts.length === 0) 
+                ? <span>Загрузка...</span> 
+                : posts.map(post => (
+                        <div
+                            key={post.id}
                             className={styles['post']}
                             onClick={didPostClicked(post.id)}
                         >
                             <h3 className={styles['post__title']}>{post.title}</h3>
                             <p className={styles['post__text']}>{post.body}</p>
                         </div>
-                    ))}
-                </>
-            )}
+                    ))
+            }
             <button 
                 className={styles['show-more-button']}
                 onClick={didShowMoreButtonClicked}
