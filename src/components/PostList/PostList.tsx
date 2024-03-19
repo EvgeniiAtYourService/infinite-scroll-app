@@ -81,11 +81,16 @@ function PostList() {
                         </div>
                     ))
             }
+
+            {/* Индикатор загрузки при прокрутках и для кнопки загрузки */}
+            {(posts.length > 0) && isLoading && <span>Загрузка...</span>}
+
             {/* Спрячем кнопку после загрузки всех постов */}
             {scrollPaginationDisabled && (posts.length !== totalCount) && (
                 <button
                     className={styles['show-more-button']}
                     onClick={didShowMoreButtonClicked}
+                    disabled={isLoading}
                 >
                     Загрузить еще
                 </button>

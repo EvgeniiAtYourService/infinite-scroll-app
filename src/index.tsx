@@ -7,8 +7,6 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-// REMOVE STRICT MODE NOT TO CALL USE EFFECT TWO TIMES
-
 root.render(
     <BrowserRouter>
       <App />
