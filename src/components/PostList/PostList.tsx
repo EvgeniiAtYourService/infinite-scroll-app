@@ -10,7 +10,7 @@ function PostList() {
     const [posts, setPosts] = useState<IPost[]>([])
 
     useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts')
+        fetch('https://jsonplaceholder.typicode.com/posts?limit=10&page=1')
             .then(response => response.json())
             .then(data => setPosts(data))
     }, [])
@@ -22,13 +22,18 @@ function PostList() {
 
     const didPostClicked = (postId: number) => () => navigate(`/${postId}`);
 
+    const didShowMoreButtonClicked = () => {
+        
+    }
+
     return (
-        <>
+        <div className={styles['container']}>
             {posts.length === 0 
             ? <span>Загрузка...</span> 
             : (
                 <>
-                    {posts.map(post => (
+                    {/* {posts.map(post => ( */}
+                    {posts.filter((o, r) => r < 3).map(post => (
                         <div 
                             key={post.id} 
                             className={styles['post']}
@@ -40,7 +45,13 @@ function PostList() {
                     ))}
                 </>
             )}
-        </>
+            <button 
+                className={styles['show-more-button']}
+                onClick={didShowMoreButtonClicked}
+            >
+                Загрузить еще
+            </button>
+        </div>
     );
 }
 
