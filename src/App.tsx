@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import styles from './App.module.css';
+
+interface IPost {
+  id: number;
+  body: string;
+  title: string;
+  userId: number;
+}
 
 function App() {
+
+  const [posts, setPosts] = useState<IPost[]>([])
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(response => response.json())
+    .then(data => setPosts(data))
+  }, [])
+
+  useEffect(() => {
+    return () => {
+    }
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {posts.map(post => (
+        <div key={post.id} className={styles['post']}>
+          <h3 className={styles['post__title']}>{post.title}</h3>
+          <p className={styles['post__text']}>{post.body}</p>
+        </div>
+      ))}
     </div>
   );
 }
